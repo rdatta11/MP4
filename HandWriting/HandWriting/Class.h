@@ -11,10 +11,11 @@
 
 #include <iostream>
 #include <vector>
-#include "Pixel.h"
+
 
 #define BITMAP_WIDTH 28
 #define BITMAP_HEIGHT 28
+#define K 1
 
 class Class{
 private:
@@ -22,7 +23,7 @@ private:
 		float mTotal;
 		float mColored;
 		
-		 pixel() : mTotal(0), mColored(1){}
+		 pixel() : mTotal(K), mColored(K){}
 	};
 	
 	std::vector<pixel> mProb;
