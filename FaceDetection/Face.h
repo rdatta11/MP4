@@ -13,6 +13,8 @@
 #include <vector>
 #define BITMAP_WIDTH 60
 #define BITMAP_HEIGHT 70
+#define K 1
+#define V 2
 
 class Face{
 private:
@@ -20,7 +22,7 @@ private:
 		float mTotal;
 		float mColored;
 		
-		pixel() : mTotal(0), mColored(1){}
+		pixel() : mTotal(V*K), mColored(K){}
 	};
 	
 	std::vector<pixel> mProb;

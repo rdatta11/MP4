@@ -23,6 +23,7 @@ Training::Training(){
 	mNumFace.resize(NUM_FACES);
 	mProbPerNum.resize(NUM_FACES);
 	mRate.resize(NUM_FACES);
+	mChar.resize(BITMAP_HEIGHT*BITMAP_WIDTH);
 	for(int i = 0 ; i< mNumFace.size(); i++){
 		mNumFace[i] = 0;
 		mProbPerNum[i] = 1;
@@ -91,6 +92,7 @@ void Training::test(std::string fName, std::string fNameLabel){
 		for(int j = 0; j< BITMAP_HEIGHT; j++){
 			std::getline(dataFile, dataString);
 			for(int k = 0; k < dataString.size(); k++){
+				mChar[j*BITMAP_WIDTH + k] = dataString[k];
 				for(int ba = 0; ba < NUM_FACES; ba++){
 					if(dataString[k] == ' '){
 						setTestingProb(ba, k, j, false);
@@ -104,6 +106,20 @@ void Training::test(std::string fName, std::string fNameLabel){
 		setStatistics(curNum, getMax());
 		if(getMax() == curNum){
 			mNumCorrect++;
+		}
+		else{
+			switch (curNum) {
+				case 0:
+					std::cout<<"This is a Non-Face catagorized as a Face:"<<std::endl;
+					break;
+				case 1:
+					std::cout<<"This is a Face catagorized as a Non-Face:"<<std::endl;
+				default:
+					break;
+			}
+			printFace();
+			std::cout<<std::endl;
+			
 		}
 		mTotal++;
 		clearProb();
@@ -187,12 +203,21 @@ void Training:: printOddRation(int num1, int num2){
 			if(prob < 0){
 				std::cout<<"-";
 			}
-			else if (.9 < prob && 1.1 > prob){
+			else if (.5 < prob && 1.5 > prob){
 				std::cout<<" ";
 			}
 			else{
 				std::cout<<"+";
 			}
+		}
+		std::cout<<std::endl;
+	}
+}
+
+void Training::printFace(){
+	for(int i = 0; i < BITMAP_HEIGHT; i++){
+		for(int j = 0; j < BITMAP_WIDTH; j++){
+			std::cout<<mChar[i*BITMAP_WIDTH + j];
 		}
 		std::cout<<std::endl;
 	}

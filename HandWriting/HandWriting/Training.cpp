@@ -97,6 +97,7 @@ void Training::test(std::string fName, std::string fNameLabel){
 			std::getline(dataFile, dataString);
 			for(int k = 0 ; k < dataString.size(); k++){
 				curDigit[j*BITMAP_WIDTH + k] = dataString[k];
+				mChar.push_back(dataString[k]);
 				for(int ba = 0 ; ba < 10; ba++)
 				if(dataString[k] == ' '){
 					setTestingProb(ba, k, j, false);
@@ -110,6 +111,10 @@ void Training::test(std::string fName, std::string fNameLabel){
 		setStatistics(curNum, getMax());
 		if(getMax() == curNum){
 			mNumCorrect++;
+		}
+		else{
+			std::cout<<"Classified as "<<getMax()<<" but actually "<<curNum<<std::endl;
+			printChar();
 		}
 		mTotal++;
 		clearProb();
@@ -135,12 +140,21 @@ void Training::test(std::string fName, std::string fNameLabel){
 	std::cout<<std::endl;
 	printOddRation(7, 9);
 	std::cout<<std::endl;
-	printOddRation(8, 9);
+	printOddRation(8, 3);
 	std::cout<<std::endl;
 	printOddRation(5, 3);
 	std::cout<<std::endl;
 }
 
+void Training::printChar(){
+	for(int idx = 0 ; idx < BITMAP_HEIGHT; idx++){
+		for(int j = 0 ; j <BITMAP_WIDTH; j++){
+			std::cout<<mChar[idx*BITMAP_WIDTH + j];
+		}
+		std::cout<<std::endl;
+	}
+	mChar.resize(0);
+}
 void Training::setTestingProb(int digit, int k, int j, bool filled){
 	if(filled){
 		mProbPerNum[digit] = mProbPerNum[digit] + log(mClass[digit].getProb(k, j));
@@ -240,8 +254,8 @@ void Training::getAvgDigit(){
 }
 
 void Training:: printHeatMap(int num){
-	for( int i = 0; i < BITMAP_HEIGHT; i++){
-		for( int j = 0; j < BITMAP_WIDTH; j++){
+	for( int i = 0; i < BITMAP_WIDTH; i++){
+		for( int j = 0; j < BITMAP_HEIGHT; j++){
 			float prob = log(mClass[num].getProb(i, j));
 			if(prob < -.60205){
 				std::cout<<":";

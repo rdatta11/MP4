@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+//NOT USED
 class Parser{
 private:
 	std::vector<char> mChar;

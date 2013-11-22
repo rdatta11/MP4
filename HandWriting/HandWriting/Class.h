@@ -15,10 +15,11 @@
 
 #define BITMAP_WIDTH 28
 #define BITMAP_HEIGHT 28
-#define K 1
+#define K 2
 
 class Class{
 private:
+	//private variables
 	 struct pixel{
 		float mTotal;
 		float mColored;
@@ -31,12 +32,13 @@ private:
 	inline size_t _getSizeTotal(){return mProb.size();}
 public:
 	Class ();
+	//change probabilty accessor
 	void changeProb(short i, short j, bool filled);
-	
+	//change probability accessor
 	void changeProb(short idx, bool filled);
-	
+	//get probability accessor
 	float getProb(short i , short j);
-	
+	//get probability accessor
 	float getProb(short idx);
 	
 	
